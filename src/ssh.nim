@@ -42,9 +42,14 @@ proc output*(ssh: var SSH): string =
       return
 
 
+proc write*(ssh: var SSH, data: string) =
+  # run command, you would be required to run output() yourself
+  ssh.process.inputStream().write(data)
+
+
 proc commandNoOutput*(ssh: var SSH, command: string) =
   # run command, you would be required to run output() yourself
-  ssh.process.inputStream().write(command & "\n")
+  ssh.write(command & "\n")
 
 
 proc command*(ssh: var SSH, command: string): string =
@@ -63,6 +68,18 @@ proc writeFile*(ssh: var SSH, filepath: string, data: string) =
 proc readFile*(ssh: var SSH, filepath: string): string =
   # Warning, uses `cat`, to be used for small text files only
   ssh.command("cat " & filepath)[0..^2].replace("\\n", "\n")
+
+
+proc setEnv*(ssh: var SSH, name: string, value: string) =
+  # Sets environment variable, does not persist, only for this session
+  if name == "PS1":
+    echo "Warning: Setting PS1 will screw up command handling."
+  discard ssh.command("export " & name & "=" & quoteShellPosix(value))
+
+
+proc getEnv*(ssh: var SSH, name: string): string =
+  # Reads environment variable
+  ssh.command("printenv " & name)
 
 
 proc exit*(ssh: var SSH) =
