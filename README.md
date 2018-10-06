@@ -9,7 +9,7 @@ import ssh
 var server = newSSH("user@server")
 ```
 Then run some commands:
-```
+```nim
 # run any simple, blocks until they are done
 echo server.command("uptime")
 echo server.command("ls")
@@ -20,7 +20,7 @@ The library will wait each command to finish, and will returns its output.
 ## Simple File I/O
 
 Use this smallish text files only, like config files. For bigger I recommend `scp` or `rsync`.
-```
+```nim
 server.writeFile("test.txt", "hello world\nits great here!\nnow what?")
 echo server.readFile("test.txt")
 ```
@@ -29,7 +29,7 @@ echo server.readFile("test.txt")
 
 Set and get environment variable, only sets it for this session.
 
-```
+```nim
 server.setEnv("TERM", "xterm")
 echo server.getEnv("TERM")
 ```
@@ -46,7 +46,7 @@ Most of them can easily be done by command line tools like `cd`, `pwd`, and `ls`
 
 
 ## Exit the server when you are done.
-```
+```nim
 server.exit()
 ```
 
