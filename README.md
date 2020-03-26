@@ -1,4 +1,7 @@
 
+⚠️ Depricated please use https://github.com/treeform/asyncssh instead. ⚠️
+
+
 # SSH - Connect to machines to run commands.
 
 ## Basics
